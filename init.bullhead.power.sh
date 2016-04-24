@@ -64,7 +64,7 @@ write /sys/devices/system/cpu/cpu1/online 1
 write /sys/devices/system/cpu/cpu2/online 1
 write /sys/devices/system/cpu/cpu3/online 1
 
-# Little Settings
+# LITTLE cluster settings
 # Set Interactive gov
 write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
 restorecon -R /sys/devices/system/cpu # must restore after interactive
@@ -89,12 +89,12 @@ write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 1
 write /sys/devices/system/cpu/online 0-4
 write /sys/devices/system/cpu/cpu4/online 1
 
-# Big Settings
+# big cluster settings
 # Set Interactive gov
-write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
 restorecon -R /sys/devices/system/cpu # must restore after interactive
-write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
-write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1824000
+write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 384000
+write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 1824000
 # Tweak Interactive Governor
 write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "95 633000:74 768000:80 864000:81 960000:83 1248000:83 1344000:84 1440000:84 1536000:84 1632000:86 1689000:87 1824000:87"
 write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack -1
