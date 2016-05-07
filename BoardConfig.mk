@@ -20,6 +20,11 @@ TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
 TARGET_CPU_VARIANT := cortex-a53
 
+CLANG_O3 := true
+STRICT_ALIASING := true
+GRAPHITE_OPTS := true
+ENABLE_GCCONLY := true
+
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
@@ -31,7 +36,7 @@ ENABLE_CPUSETS := true
 TARGET_NO_BOOTLOADER := true
 
 # Inline kernel building
-KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/aarch64/aarch64-linux-android-4.9/bin
+KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/aarch64/aarch64-linux-android-7.0-kernel/bin
 KERNEL_TOOLCHAIN_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_SOURCE := kernel/lge/bullhead
 TARGET_KERNEL_CONFIG := elementalx_defconfig
