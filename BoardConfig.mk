@@ -34,6 +34,7 @@ ENABLE_CPUSETS := true
 TARGET_NO_BOOTLOADER := true
 
 # Inline kernel building
+<<<<<<< HEAD
 TARGET_GCC_VERSION_ARM64 := 7.0-kernel
 KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/aarch64/aarch64-linux-android-7.0-kernel/bin
 KERNEL_TOOLCHAIN_PREFIX := aarch64-linux-android-
