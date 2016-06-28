@@ -54,6 +54,11 @@ write /sys/module/lpm_levels/system/a57/cpu5/retention/idle_enabled 0
 write /sys/module/lpm_levels/system/a53/a53-l2-retention/idle_enabled 0
 write /sys/module/lpm_levels/system/a57/a57-l2-retention/idle_enabled 0
 
+## EclipseR2 settings start
+# configure io scheduler
+write /sys/block/mmcblk0/queue/scheduler sioplus
+write /sys/block/mmcblk0/queue/read_ahead_kb 2048
+
 # configure governor settings for little cluster
 write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
 restorecon -R /sys/devices/system/cpu # must restore after interactive
@@ -93,6 +98,18 @@ write /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration 0
 write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 633600
 write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 1824000
 
+# input boost configuration
+write /sys/module/cpu_boost/parameters/input_boost_enabled 1
+write /sys/module/cpu_boost/parameters/input_boost_freq "0:787000 1:787000 2:787000 3:787000 4:0 5:0"
+write /sys/module/cpu_boost/parameters/input_boost_ms 40
+write /sys/module/cpu_boost/parameters/boost_ms 0
+
+# disable touchboost and enable thermal
+write /sys/module/msm_thermal/parameters/enabled Y
+write /sys/module/msm_performance/parameters/touchboost 0
+
+## EclipseR2 settings end
+
 # restore A57's max
 copy /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 
@@ -101,15 +118,6 @@ write /sys/devices/system/cpu/cpu5/online 1
 
 # Restore CPU 4 max freq from msm_performance
 write /sys/module/msm_performance/parameters/cpu_max_freq "4:4294967295 5:4294967295"
-
-# input boost configuration
-write /sys/module/cpu_boost/parameters/input_boost_enabled 1
-write /sys/module/cpu_boost/parameters/input_boost_freq "0:787000 1:787000 2:787000 3:787000 4:0 5:0"
-write /sys/module/cpu_boost/parameters/input_boost_ms 40
-write /sys/module/cpu_boost/parameters/boost_ms 0
-
-# disable touchboost
-write /sys/module/msm_performance/parameters/touchboost 0
 
 # Setting B.L scheduler parameters
 write /proc/sys/kernel/sched_migration_fixup 1
@@ -129,8 +137,7 @@ get-set-forall  /sys/class/devfreq/qcom,cpubw*/governor bw_hwmon
 # Disable sched_boost
 write /proc/sys/kernel/sched_boost 0
 
-# re-enable BCL hotplug and enable thermal
-write /sys/module/msm_thermal/parameters/enabled Y
+# re-enable BCL hotplug
 get-set-forall /sys/devices/soc.0/qcom,bcl.*/mode disable
 get-set-forall /sys/devices/soc.0/qcom,bcl.*/hotplug_mask $bcl_hotplug_mask
 get-set-forall /sys/devices/soc.0/qcom,bcl.*/hotplug_soc_mask $bcl_hotplug_soc_mask
